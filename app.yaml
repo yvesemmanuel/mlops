@@ -1,0 +1,11 @@
+runtime: python
+env: flex
+entrypoint: gunicorn -b :$SPORT main:app
+runtime_config:
+  python_version: 3
+includes:
+  - env_vars.yaml
+manual_scaling:
+  instances: 1
+network:
+  name: mlops-deploy

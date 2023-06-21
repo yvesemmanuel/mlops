@@ -1,16 +1,14 @@
-from flask import Flask, request, jsonify
-from flask_basicauth import BasicAuth
+from flask import (
+    Flask,
+    request,
+    jsonify
+)
 from textblob import TextBlob
 import pickle
-import os
 
 
 app = Flask(__name__)
-app.config['BASIC_AUTH_USERNAME'] = os.environ.get('BASIC_AUTH_USERNAME')
-app.config['BASIC_AUTH_PASSWORD'] = os.environ.get('BASIC_AUTH_PASSWORD')
-basic_auth = BasicAuth(app)
-
-model = pickle.load(open('../../models/model.sav', 'rb'))
+model = pickle.load(open('models/model.sav', 'rb'))
 
 
 @app.route('/')
@@ -19,7 +17,6 @@ def home():
 
 
 @app.route('/sentiment/<sentence>')
-@basic_auth.required
 def get_sentiment(sentence: str):
     tb = TextBlob(sentence)
     polarity = tb.sentiment.polarity
